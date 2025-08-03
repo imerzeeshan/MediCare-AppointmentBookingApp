@@ -1,0 +1,18 @@
+[
+  {
+    "id": "1",
+    "name": "Dr. Sarah Johnson",
+    "specialization": "Cardiologist",
+    "image": "/sarah.jpg",
+    "available": true,
+    "bio": "Experienced in cardiology for 10+ years."
+  },
+  {
+    "id": "2",
+    "name": "Dr. Alex Kim",
+    "specialization": "Dermatologist",
+    "image": "/alex.jpg",
+    "available": false,
+    "bio": "Expert in skincare and laser treatments."
+  }
+]
