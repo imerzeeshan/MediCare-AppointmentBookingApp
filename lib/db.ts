@@ -4,7 +4,7 @@ import mysql from "mysql2/promise";
 export const db = mysql.createPool({
   host: process.env.MYSQL_HOST,
   user: process.env.MYSQL_USER,
-  password: "ADCPZ2740F@#786f", //process.env.MYSQL_PASSWORD,
+  password: "", //process.env.MYSQL_PASSWORD,
   database: process.env.MYSQL_DATABASE,
 });
 // password: "ADCPZ2740F@#786f", //process.env.DB_PASSWORD
