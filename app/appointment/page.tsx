@@ -1,59 +1,9 @@
 "use client";
 
 import AppointmentCard from "@/components/AppointmentCard";
-import { Appoint, Doctor, Patient } from "@/types";
+import { Appoint } from "@/types";
 
-// const appointment: Appoint = {
-//   id: 1,
-//   user_id: 101,
-//   doctor_id: 7,
-//   email: "jane.doe@example.com",
-//   status: "scheduled",
-//   created_at: "2025-07-30T10:15:00Z",
-//   appointment_date: "2025-08-02T14:00:00Z",
-// };
-
-// const doctor: Doctor = {
-//   id: "7",
-//   name: "Dr. John Smith",
-//   specialization: "Cardiology",
-//   image_url: "https://via.placeholder.com/150",
-//   available: true,
-// };
-
-// const patient: Patient = {
-//   id: "101",
-//   name: "Jane Doe",
-//   email: "jane.doe@example.com",
-//   phone: "123-456-7890",
-//   age: 32,
-//   gender: "Female",
-// };
-
-// export default function Page() {
-//   return (
-//     <div className="p-6">
-//       <AppointmentCard
-//         appoint={appointment}
-//         doctor={doctor}
-//         patient={patient}
-//       />
-//     </div>
-//   );
-// }
-
-import Link from "next/link";
 import { useEffect, useState } from "react";
-
-// type Appoint = {
-//   user_id: number;
-//   status: string;
-//   id: number;
-//   email: string;
-//   doctor_id: number;
-//   created_at: string;
-//   appointment_date: string;
-// };
 
 export default function BookAppointment() {
   const [email, setEmail] = useState("");
@@ -71,10 +21,9 @@ export default function BookAppointment() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email }),
     });
-    const { app } = await res.json();
-    setAppointments(app);
-
-    console.log(app);
+    const { data } = await res.json();
+    console.log(data);
+    setAppointments(data);
   };
 
   const getAuthUser = async () => {
@@ -87,7 +36,7 @@ export default function BookAppointment() {
     } else {
       setAuth(false);
     }
-    console.log(data);
+    console.log(data.user);
   };
 
   const getLoggedInAppointments = async () => {
@@ -96,9 +45,9 @@ export default function BookAppointment() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email }),
     });
-    const { app } = await appRes.json();
-    setAppointments(app);
-    // console.log(appData);
+    const { data } = await appRes.json();
+    setAppointments(data);
+    console.log(data, "app");
   };
 
   useEffect(() => {

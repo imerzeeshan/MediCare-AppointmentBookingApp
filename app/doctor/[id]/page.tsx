@@ -12,9 +12,9 @@ export default function DoctorProfile() {
     const res = await fetch(`/api/doctor/${id}`, {
       method: "GET",
     });
-    const doc = await res.json();
-    setDoctor(doc);
-    console.log(doc);
+    const { data } = await res.json();
+    setDoctor(data);
+    console.log(data);
   };
 
   useEffect(() => {

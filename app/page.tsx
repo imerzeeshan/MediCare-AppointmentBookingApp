@@ -22,9 +22,9 @@ export default function HomePage() {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
-    const docs = await docRes.json();
-    setDoctors(docs);
-    console.log(docs, "doctors");
+    const { data } = await docRes.json();
+    setDoctors(data);
+    console.log(data, "doctors");
   };
 
   const checkToken = async () => {

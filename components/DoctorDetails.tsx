@@ -9,9 +9,9 @@ const DoctorDetails = ({ doctorId }: { doctorId: number }) => {
     const docRes = await fetch(`/api/doctor/${doctorId}`, {
       method: "GET",
     });
-    const docData = await docRes.json();
-    console.log(docData);
-    setDoctor(docData);
+    const {data} = await docRes.json();
+    console.log(data);
+    setDoctor(data);
   };
 
   useEffect(() => {

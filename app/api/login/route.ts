@@ -1,33 +1,50 @@
-// app/api/login/route.ts
-import { NextResponse } from 'next/server'
-import { db } from '@/lib/db'
-import bcrypt from 'bcryptjs'
-import { signJwt } from '@/lib/jwt'
+import { NextResponse } from "next/server";
+import { db } from "@/lib/db";
+import bcrypt from "bcryptjs";
+import { signJwt } from "@/lib/jwt";
 
 export async function POST(req: Request) {
-  const { email, password } = await req.json()
+  const { email, password } = await req.json();
 
   if (!email || !password) {
-    return NextResponse.json({ error: 'Missing fields' }, { status: 400 })
+    return NextResponse.json(
+      { success: false, error: "Missing fields" },
+      { status: 400 }
+    );
   }
 
   try {
-    const [rows] = await db.query('SELECT * FROM users WHERE email = ?', [email])
-    const user = Array.isArray(rows) && rows[0]
+    const [rows]: any = await db.query("SELECT * FROM users WHERE email = ?", [
+      email,
+    ]);
+    const user = Array.isArray(rows) && rows[0];
 
     if (!user) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 })
+      return NextResponse.json(
+        { success: false, error: "User not found" },
+        { status: 404 }
+      );
     }
 
-    const match = await bcrypt.compare(password, user.password)
+    const match = await bcrypt.compare(password, user.password);
     if (!match) {
-      return NextResponse.json({ error: 'Invalid password' }, { status: 401 })
+      return NextResponse.json(
+        { success: false, error: "Invalid password" },
+        { status: 401 }
+      );
     }
 
-    const token = signJwt({ id: user.id, email: user.email })
+    const token = signJwt(
+      { id: user.id, email: user.email },
+      // { expiresIn: "1h" } // optional but recommended
+    );
 
-    return NextResponse.json({ token })
+    return NextResponse.json({ success: true, token });
   } catch (err) {
-    return NextResponse.json({ error: 'Server error' }, { status: 500 })
+    console.error("Login error:", err);
+    return NextResponse.json(
+      { success: false, error: "Server error" },
+      { status: 500 }
+    );
   }
 }

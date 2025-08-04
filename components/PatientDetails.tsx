@@ -9,9 +9,9 @@ const PatientDetails = ({ patientId }: { patientId: number }) => {
     const patientRes = await fetch("/api/patient/" + patientId, {
       method: "GET",
     });
-    const patientData = await patientRes.json();
-    setPatient(patientData[0]);
-    console.log(patientData[0]);
+    const {data} = await patientRes.json();
+    setPatient(data);
+    console.log(data);
   };
 
   useEffect(() => {

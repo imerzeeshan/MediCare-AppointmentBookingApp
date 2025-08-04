@@ -2,12 +2,25 @@ import { db } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
-  const { email } = await request.json();
+  try {
+    const body = await request.json();
+    const email = body?.email;
 
-  const [app] = await db.execute(`SELECT * FROM appointments WHERE email = ?`, [
-    email,
-  ]);
-//   console.log(app);
+    if (!email || typeof email !== "string") {
+      return NextResponse.json({ error: "Invalid email" }, { status: 400 });
+    }
 
-  return NextResponse.json({ app });
+    const [rows]: any = await db.execute(
+      `SELECT * FROM appointments WHERE email = ?`,
+      [email]
+    );
+
+    return NextResponse.json({ success: true, data: rows });
+  } catch (error) {
+    console.error("Error fetching appointments:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
+  }
 }

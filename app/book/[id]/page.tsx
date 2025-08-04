@@ -18,8 +18,8 @@ export default function BookAppointment() {
 
   const getPetientData = async (id: number) => {
     const patRes = await fetch(`/api/patient/${id}`);
-    const patData = await patRes.json();
-    setPatient(patData[0]);
+    const { data } = await patRes.json();
+    setPatient(data);
     // console.log(patData,"const");
   };
 
@@ -28,7 +28,10 @@ export default function BookAppointment() {
     const { user } = await authRes.json();
 
     if (authRes.ok) {
-      getPetientData(user.id);
+      // console.log(user, "ddd");
+
+      // getPetientData(user.id);
+      setPatient(user);
     }
   };
 
@@ -36,7 +39,7 @@ export default function BookAppointment() {
     e.preventDefault();
 
     if (date) {
-      console.log(doctorId)
+      console.log(doctorId);
       const user = await fetch(`/api/appointment/${doctorId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -44,7 +47,7 @@ export default function BookAppointment() {
       });
       const data = await user.json();
       console.log(data, "bookID");
-      setSubmitted(true);
+      // setSubmitted(true);
     }
   };
 
